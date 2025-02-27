@@ -12,6 +12,7 @@
     "update:contact-fields": "node scripts/updateContactFields.js"
   },
   "dependencies": {
+    "chart.js": "^4.4.8",
     "dotenv": "^16.4.7",
     "dynamic": "^4.2.2",
     "framer-motion": "^12.4.7",
@@ -19,7 +20,9 @@
     "mongoose": "^8.10.2",
     "next": "15.1.7",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-chartjs-2": "^5.3.0",
+    "react-dom": "^19.0.0",
+    "recharts": "^2.15.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.16",

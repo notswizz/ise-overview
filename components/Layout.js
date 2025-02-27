@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { useState } from 'react';
 
 // Theme colors based on ISE logo
 const theme = {
@@ -20,15 +19,44 @@ const theme = {
   }
 };
 
-export default function Layout({ children, title = 'ISE Sports Agency' }) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+export default function Layout({ children, title = 'ISE Sports Agency', description = 'ISE Sports Agency Property Portfolio Dashboard' }) {
+  // Define constants for SEO
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ise-properties.com';
+  const ogImageUrl = `${siteUrl}/images/ise.jpeg`;
+  
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Head>
         <title>{title}</title>
-        <meta name="description" content="ISE Sports Agency Dashboard" />
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content={description} />
+        
+        {/* Favicon */}
         <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={siteUrl} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={ogImageUrl} />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={siteUrl} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImageUrl} />
+        
+        {/* Additional SEO tags */}
+        <meta name="theme-color" content="#6ea8d8" />
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="ISE Sports Agency" />
       </Head>
 
       <header className="bg-[#6ea8d8] shadow-md border-b-2 border-black">
@@ -47,39 +75,21 @@ export default function Layout({ children, title = 'ISE Sports Agency' }) {
                   </div>
                 </Link>
               </div>
+
+              {/* Navigation Links - Desktop */}
+              <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
+                {/* Navigation links removed as per user request */}
+              </div>
              
             </div>
             <div className="-mr-2 flex items-center md:hidden">
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                type="button"
-                className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-gray-200 hover:bg-[#5a96c8] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white border border-black"
-                aria-expanded="false"
-              >
-                <span className="sr-only">Open main menu</span>
-                {mobileMenuOpen ? (
-                  <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                ) : (
-                  <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                )}
-              </button>
+              {/* Mobile menu button removed since there are no nav links */}
             </div>
           </div>
         </div>
 
-        <div className={`${mobileMenuOpen ? 'block' : 'hidden'} md:hidden`}>
-          <div className="pt-2 pb-3 space-y-1">
-            <Link href="/">
-              <span className="block pl-3 pr-4 py-2 text-base font-medium text-white hover:text-gray-200 hover:bg-[#5a96c8] border-l-2 border-black">
-                Independent Sports and Entertainment (ISE) Overview
-              </span>
-            </Link>
-          </div>
-        </div>
+        {/* Mobile menu removed - no longer needed */}
+
       </header>
 
       <main className="flex-1 w-full max-w-full mx-auto p-3 sm:p-4 md:p-5 lg:p-6">

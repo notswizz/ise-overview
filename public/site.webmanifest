@@ -1,0 +1,21 @@
+{
+  "name": "ISE Sports Agency Property Dashboard",
+  "short_name": "ISE Properties",
+  "description": "ISE Sports Agency Property Portfolio Dashboard",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#6ea8d8",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/"
+} 

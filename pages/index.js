@@ -88,7 +88,10 @@ export default function Home() {
   // Wrap the content with password protection
   const renderContent = () => {
     return (
-      <Layout title="ISE Sports Agency | Properties">
+      <Layout 
+        title="ISE Sports Agency | Property Portfolio Dashboard" 
+        description="Explore ISE Sports Agency's property portfolio - view active and completed sports marketing partnerships across our network of properties."
+      >
         {/* Main Content - Two Column Layout */}
         <div className="flex flex-col lg:flex-row lg:space-x-6">
           {/* Left Column - Property Cards (2/3 width) */}
@@ -238,6 +241,15 @@ export default function Home() {
                     Add New Property
                   </a>
                   <a 
+                    href="/charts" 
+                    className="inline-flex items-center px-5 py-2.5 text-sm font-medium rounded-lg shadow-sm text-white bg-green-600 hover:bg-green-700 transition-all border-2 border-black"
+                  >
+                    <svg className="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    Revenue Charts
+                  </a>
+                  <a 
                     href="/admin" 
                     className="inline-flex items-center px-5 py-2.5 border border-gray-300 text-sm font-medium rounded-lg shadow-sm text-gray-700 bg-white hover:bg-gray-50 transition-all"
                   >
@@ -308,119 +320,123 @@ export default function Home() {
             </div>
             
             {/* Stats Section */}
-            <div className="bg-white rounded-lg shadow-sm p-4 border-2 border-[#6ea8d8]">
-              <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-                <svg className="h-5 w-5 mr-2 text-[#6ea8d8]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-                Stats Overview
-              </h2>
+            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+              <div className="bg-gradient-to-r from-[#6ea8d8] to-[#4a90e2] p-4">
+                <h2 className="text-lg font-bold text-white flex items-center">
+                  <svg className="h-5 w-5 mr-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                  Portfolio Analytics
+                </h2>
+              </div>
               
-              <div className="space-y-3">
-                {/* Total Properties */}
-                <div className="bg-gradient-to-r from-gray-100 to-white rounded-lg p-3 border-2 border-gray-300 relative overflow-hidden">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="text-xs uppercase tracking-wide text-gray-500 font-medium">Total Properties</p>
-                      <p className="text-xl font-bold text-gray-900 mt-1">{properties.length}</p>
-                    </div>
-                    <div className="bg-gray-200 p-2 rounded-full border-2 border-black">
-                      <svg className="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
+              {/* Summary Stats */}
+              <div className="grid grid-cols-3 divide-x divide-gray-200 border-b border-gray-200">
+                <motion.div 
+                  className="p-4 text-center"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">Total</p>
+                  <p className="text-2xl font-bold text-gray-800">{properties.length}</p>
+                  <p className="text-xs text-gray-500">Properties</p>
+                </motion.div>
                 
-                {/* Active Contracts */}
-                <div className="bg-gradient-to-r from-[#6ea8d8]/20 to-white rounded-lg p-3 border-2 border-[#6ea8d8] relative overflow-hidden">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="text-xs uppercase tracking-wide text-gray-500 font-medium">Active Contracts</p>
-                      <p className="text-xl font-bold text-gray-900 mt-1">
-                        {properties.filter(p => p.contractExpiration && new Date(p.contractExpiration) > new Date()).length}
-                      </p>
-                    </div>
-                    <div className="bg-[#6ea8d8]/20 p-2 rounded-full border-2 border-black">
-                      <svg className="h-5 w-5 text-[#6ea8d8]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="mt-2">
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div 
-                        className="bg-[#6ea8d8] h-2 rounded-full" 
-                        style={{ 
-                          width: `${properties.length ? (properties.filter(p => p.contractExpiration && new Date(p.contractExpiration) > new Date()).length / properties.length) * 100 : 0}%` 
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-                  
-                  {/* Total Projected Value */}
-                  {properties.filter(p => p.contractExpiration && new Date(p.contractExpiration) > new Date() && p.projectedAnnualDeal > 0).length > 0 && (
-                    <div className="mt-2 pt-2 border-t border-[#6ea8d8]/30">
-                      <p className="text-xs uppercase tracking-wide text-gray-500 font-medium">Projected Value</p>
-                      <p className="text-lg font-bold text-[#6ea8d8] mt-1">
-                        {new Intl.NumberFormat('en-US', {
-                          style: 'currency',
-                          currency: 'USD',
-                          maximumFractionDigits: 0
-                        }).format(
-                          properties
-                            .filter(p => p.contractExpiration && new Date(p.contractExpiration) > new Date())
-                            .reduce((total, p) => total + (p.projectedAnnualDeal || 0) * (p.dealTermLength || 1), 0)
-                        )}
-                      </p>
-                    </div>
-                  )}
-                </div>
+                <motion.div 
+                  className="p-4 text-center"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                >
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">Active</p>
+                  <p className="text-2xl font-bold text-[#6ea8d8]">
+                    {properties.filter(p => p.contractExpiration && new Date(p.contractExpiration) > new Date()).length}
+                  </p>
+                  <p className="text-xs text-gray-500">Contracts</p>
+                </motion.div>
                 
-                {/* Completed Contracts */}
-                <div className="bg-gradient-to-r from-green-50 to-white rounded-lg p-3 border-2 border-green-500 relative overflow-hidden">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="text-xs uppercase tracking-wide text-gray-500 font-medium">Completed Contracts</p>
-                      <p className="text-xl font-bold text-gray-900 mt-1">
-                        {properties.filter(p => p.contractExpiration && new Date(p.contractExpiration) < new Date()).length}
-                      </p>
+                <motion.div 
+                  className="p-4 text-center"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">Completed</p>
+                  <p className="text-2xl font-bold text-green-600">
+                    {properties.filter(p => p.contractExpiration && new Date(p.contractExpiration) < new Date()).length}
+                  </p>
+                  <p className="text-xs text-gray-500">Contracts</p>
+                </motion.div>
+              </div>
+              
+              {/* Financial Overview */}
+              <div className="p-4">
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">Financial Overview</h3>
+                
+                {properties.filter(p => p.contractExpiration && new Date(p.contractExpiration) > new Date() && p.projectedAnnualDeal > 0).length > 0 && (
+                  <motion.div 
+                    className="bg-white rounded-lg p-3 mb-3 shadow-sm border border-gray-200"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="flex items-center">
+                      <div className="bg-blue-100 p-2 rounded-md mr-3">
+                        <svg className="h-5 w-5 text-[#6ea8d8]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs text-gray-500 uppercase tracking-wide">Projected Revenue</p>
+                        <p className="text-lg font-bold text-[#6ea8d8]">
+                          {new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            maximumFractionDigits: 0
+                          }).format(
+                            properties
+                              .filter(p => p.contractExpiration && new Date(p.contractExpiration) > new Date())
+                              .reduce((total, p) => total + (p.projectedAnnualDeal || 0) * (p.dealTermLength || 1), 0)
+                          )}
+                        </p>
+                        <p className="text-xs text-gray-500">From {properties.filter(p => p.contractExpiration && new Date(p.contractExpiration) > new Date() && p.projectedAnnualDeal > 0).length} active contracts</p>
+                      </div>
                     </div>
-                    <div className="bg-green-100 p-2 rounded-full border-2 border-black">
-                      <svg className="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
+                  </motion.div>
+                )}
+                
+                {properties.filter(p => p.contractExpiration && new Date(p.contractExpiration) < new Date() && p.actualAnnualDeal > 0).length > 0 && (
+                  <motion.div 
+                    className="bg-white rounded-lg p-3 shadow-sm border border-gray-200"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.1 }}
+                  >
+                    <div className="flex items-center">
+                      <div className="bg-green-100 p-2 rounded-md mr-3">
+                        <svg className="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs text-gray-500 uppercase tracking-wide">Realized Revenue</p>
+                        <p className="text-lg font-bold text-green-600">
+                          {new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            maximumFractionDigits: 0
+                          }).format(
+                            properties
+                              .filter(p => p.contractExpiration && new Date(p.contractExpiration) < new Date())
+                              .reduce((total, p) => total + (p.actualAnnualDeal || 0) * (p.dealTermLength || 1), 0)
+                          )}
+                        </p>
+                        <p className="text-xs text-gray-500">From {properties.filter(p => p.contractExpiration && new Date(p.contractExpiration) < new Date() && p.actualAnnualDeal > 0).length} completed contracts</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="mt-2">
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div 
-                        className="bg-green-500 h-2 rounded-full" 
-                        style={{ 
-                          width: `${properties.length ? (properties.filter(p => p.contractExpiration && new Date(p.contractExpiration) < new Date()).length / properties.length) * 100 : 0}%` 
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-                  
-                  {/* Total Actual Value */}
-                  {properties.filter(p => p.contractExpiration && new Date(p.contractExpiration) < new Date() && p.actualAnnualDeal > 0).length > 0 && (
-                    <div className="mt-2 pt-2 border-t border-green-200">
-                      <p className="text-xs uppercase tracking-wide text-gray-500 font-medium">Total Value</p>
-                      <p className="text-lg font-bold text-green-600 mt-1">
-                        {new Intl.NumberFormat('en-US', {
-                          style: 'currency',
-                          currency: 'USD',
-                          maximumFractionDigits: 0
-                        }).format(
-                          properties
-                            .filter(p => p.contractExpiration && new Date(p.contractExpiration) < new Date())
-                            .reduce((total, p) => total + (p.actualAnnualDeal || 0) * (p.dealTermLength || 1), 0)
-                        )}
-                      </p>
-                    </div>
-                  )}
-                </div>
+                  </motion.div>
+                )}
               </div>
             </div>
           </div>
