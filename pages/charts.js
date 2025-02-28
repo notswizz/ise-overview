@@ -207,7 +207,7 @@ export default function Charts() {
   // Wrap the content with password protection
   const renderContent = () => {
     return (
-      <Layout title="ISE Sports Agency | Revenue Charts">
+      <Layout title="ISE Properties | Revenue Charts">
         <div className="container mx-auto px-4 py-8">
           {loading ? (
             <LoadingState />

@@ -19,7 +19,7 @@ const theme = {
   }
 };
 
-export default function Layout({ children, title = 'ISE Sports Agency', description = 'ISE Sports Agency Property Portfolio Dashboard' }) {
+export default function Layout({ children, title = 'ISE Properties', description = 'ISE Properties Portfolio Dashboard' }) {
   // Define constants for SEO
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ise-properties.com';
   const ogImageUrl = `${siteUrl}/images/ise.jpeg`;
@@ -56,7 +56,7 @@ export default function Layout({ children, title = 'ISE Sports Agency', descript
         {/* Additional SEO tags */}
         <meta name="theme-color" content="#6ea8d8" />
         <meta name="robots" content="index, follow" />
-        <meta name="author" content="ISE Sports Agency" />
+        <meta name="author" content="ISE Properties" />
       </Head>
 
       <header className="bg-[#6ea8d8] shadow-md border-b-2 border-black">
@@ -68,7 +68,7 @@ export default function Layout({ children, title = 'ISE Sports Agency', descript
                   <div className="flex items-center">
                     <img 
                       src="/images/ise.jpeg" 
-                      alt="ISE Sports Agency" 
+                      alt="ISE Properties" 
                       className="h-10 w-auto rounded-md shadow-sm border-2 border-black" 
                     />
                     <span className="ml-3 text-xl font-bold text-white drop-shadow-md">ISE - Properties</span>

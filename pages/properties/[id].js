@@ -114,7 +114,7 @@ export default function PropertyDetails() {
     }
 
     return (
-      <Layout title={`${property.name} | ISE Sports Agency`}>
+      <Layout title={`${property.name} | ISE Properties`}>
         <div className="max-w-[1100px] mx-auto h-[calc(100vh-4rem)] w-full px-4 sm:px-6 lg:px-8 overflow-hidden">
           {/* Property Detail View with Sidebar */}
           <PropertyHeader property={property} id={id} />

@@ -37,7 +37,7 @@ export default function MigrateContacts() {
   };
 
   return (
-    <Layout title="Migrate Contacts | ISE Sports Agency">
+    <Layout title="Migrate Contacts | ISE Properties">
       <div className="py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-3xl font-bold text-gray-900 mb-6">Contact Migration Tool</h1>

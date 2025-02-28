@@ -89,8 +89,8 @@ export default function Home() {
   const renderContent = () => {
     return (
       <Layout 
-        title="ISE Sports Agency | Property Portfolio Dashboard" 
-        description="Explore ISE Sports Agency's property portfolio - view active and completed sports marketing partnerships across our network of properties."
+        title="ISE Properties | Property Portfolio Dashboard" 
+        description="Explore ISE Properties portfolio - view active and completed partnerships across our network of properties."
       >
         {/* Main Content - Two Column Layout */}
         <div className="flex flex-col lg:flex-row lg:space-x-6">

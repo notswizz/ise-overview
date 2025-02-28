@@ -30,7 +30,7 @@ export default function AdminDashboard() {
   }, []);
 
   return (
-    <Layout title="Admin Dashboard | ISE Sports Agency">
+    <Layout title="Admin Dashboard | ISE Properties">
       <div className="space-y-8">
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>

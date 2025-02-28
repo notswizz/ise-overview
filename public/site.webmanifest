@@ -1,7 +1,7 @@
 {
-  "name": "ISE Sports Agency Property Dashboard",
+  "name": "ISE Properties Dashboard",
   "short_name": "ISE Properties",
-  "description": "ISE Sports Agency Property Portfolio Dashboard",
+  "description": "ISE Properties Portfolio Dashboard",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
