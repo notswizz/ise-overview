@@ -4,6 +4,23 @@ import Layout from '../../../../components/Layout';
 import Link from 'next/link';
 import mongoose from 'mongoose';
 
+// Import status state components
+import { 
+  LoadingState, 
+  NotFoundState, 
+  InvalidIdState, 
+  ErrorState
+} from '../../../../components/properties/PropertyStatusStates';
+
+// Define SubmittingState component
+const SubmittingState = () => (
+  <div className="flex flex-col items-center justify-center py-16">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#6ea8d8] border-l-2 border-r-2 border-black"></div>
+    <p className="mt-4 text-lg font-medium text-gray-700">Saving property changes...</p>
+    <p className="text-sm text-gray-500 mt-2">This may take a moment.</p>
+  </div>
+);
+
 // Import form section components
 import { 
   BasicInfoSection,
@@ -48,7 +65,7 @@ export default function EditProperty() {
     dealTermLength: 1,
     actualAnnualDeal: 0,
     contacts: [],
-    newContact: { name: '', category: 'alumni' }
+    newContact: { name: '', position: '', email: '', category: 'alumni' }
   });
 
   useEffect(() => {
@@ -92,15 +109,15 @@ export default function EditProperty() {
             ...property,
             sunsetName: property.sunsetName || '',
             coverPhoto: property.coverPhoto || '',
-            contractExpiration: property.contractExpiration ? new Date(property.contractExpiration).toISOString().split('T')[0] : '',
-            contractStartDate: property.contractStartDate ? new Date(property.contractStartDate).toISOString().split('T')[0] : '',
+            contractExpiration: property.contractExpiration ? formatDateForInput(property.contractExpiration) : '',
+            contractStartDate: property.contractStartDate ? formatDateForInput(property.contractStartDate) : '',
             prohibitedCategories: property.prohibitedCategories?.join(', ') || '',
             alumniContacts: property.alumniContacts?.join('\n') || '',
             campusContacts: property.campusContacts?.join('\n') || '',
             mmrContacts: property.mmrContacts?.join('\n') || '',
             athleticsContacts: property.athleticsContacts?.join('\n') || '',
             contacts: property.contacts || [],
-            newContact: { name: '', category: 'alumni' },
+            newContact: { name: '', position: '', email: '', category: 'alumni' },
             projectedAnnualDeal: property.projectedAnnualDeal || 0,
             dealTermLength: property.dealTermLength || 1,
             actualAnnualDeal: property.actualAnnualDeal || 0
@@ -130,7 +147,7 @@ export default function EditProperty() {
         ...formData,
         [name]: isNaN(numValue) ? 0 : numValue
       });
-    } else if (name === 'newContact.name' || name === 'newContact.category') {
+    } else if (name.startsWith('newContact.')) {
       // Handle nested newContact object
       const field = name.split('.')[1];
       setFormData({
@@ -157,10 +174,20 @@ export default function EditProperty() {
       ...formData,
       contacts: [
         ...formData.contacts,
-        { ...formData.newContact }
+        { 
+          name: formData.newContact.name.trim(),
+          position: formData.newContact.position?.trim() || '',
+          email: formData.newContact.email?.trim() || '',
+          category: formData.newContact.category 
+        }
       ],
       // Reset the newContact field
-      newContact: { name: '', category: formData.newContact.category }
+      newContact: { 
+        name: '', 
+        position: '', 
+        email: '', 
+        category: formData.newContact.category 
+      }
     });
   };
   
@@ -169,6 +196,15 @@ export default function EditProperty() {
       ...formData,
       contacts: formData.contacts.filter((_, i) => i !== index)
     });
+  };
+
+  // Helper function to format dates correctly for input fields
+  const formatDateForInput = (dateString) => {
+    const date = new Date(dateString);
+    // Add the timezone offset to ensure the date is displayed correctly
+    const timezoneOffset = date.getTimezoneOffset() * 60000;
+    const adjustedDate = new Date(date.getTime() + timezoneOffset);
+    return adjustedDate.toISOString().split('T')[0];
   };
 
   const handleSubmit = async (e) => {
@@ -182,6 +218,9 @@ export default function EditProperty() {
         ...formData,
         sunsetName: formData.sunsetName,
         coverPhoto: formData.coverPhoto,
+        // Ensure dates are properly formatted for storage
+        contractExpiration: formData.contractExpiration ? new Date(formData.contractExpiration + 'T12:00:00Z') : null,
+        contractStartDate: formData.contractStartDate ? new Date(formData.contractStartDate + 'T12:00:00Z') : null,
         prohibitedCategories: formData.prohibitedCategories.split(',').map(item => item.trim()).filter(Boolean),
         // Include only the unified contacts array
         contacts: formData.contacts,
@@ -446,8 +485,15 @@ export default function EditProperty() {
 
           {/* Sticky footer with form controls */}
           <div className="sticky bottom-0 bg-gray-50 px-6 py-4 border-t border-gray-200 flex items-center justify-between">
-            <div className="text-sm text-gray-500 italic">
-              All changes are saved when you click the Save button
+            <div className="flex items-center">
+              <div className="text-sm text-gray-500 italic mr-2">
+                All changes (including contacts) are saved when you click the Save button
+              </div>
+              {formData.contacts.length > 0 && (
+                <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                  {formData.contacts.length} contact{formData.contacts.length !== 1 ? 's' : ''} pending
+                </span>
+              )}
             </div>
             <div className="flex space-x-3">
               <Link href="/admin">
@@ -458,7 +504,7 @@ export default function EditProperty() {
               <button
                 type="submit"
                 disabled={saving}
-                className={`inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#003594] hover:bg-[#002a7a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#003594] ${saving ? 'opacity-75 cursor-not-allowed' : ''}`}
+                className={`inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#003594] hover:bg-[#002a7a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#003594] ${saving ? 'opacity-75 cursor-not-allowed' : 'animate-pulse'}`}
               >
                 {saving ? (
                   <>

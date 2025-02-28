@@ -12,7 +12,7 @@ const ContactsSection = ({ property }) => {
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1">
           <h3 className="text-gray-900 font-medium">{contact.name}</h3>
-          <p className="text-sm text-gray-500">{contact.title}</p>
+          <p className="text-sm text-gray-500">{contact.position}</p>
         </div>
         
         {contact.category && (

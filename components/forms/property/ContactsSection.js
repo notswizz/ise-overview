@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const ContactsSection = ({ formData, handleInputChange, handleAddContact, handleRemoveContact }) => {
   // Group contacts by category
@@ -12,19 +12,47 @@ const ContactsSection = ({ formData, handleInputChange, handleAddContact, handle
   }, {});
   
   // State for new contact form validation
-  const [validationError, setValidationError] = useState(null);
+  const [validationErrors, setValidationErrors] = useState({});
+  const [addSuccess, setAddSuccess] = useState(false);
+  
+  // Clear success message after 3 seconds
+  useEffect(() => {
+    if (addSuccess) {
+      const timer = setTimeout(() => {
+        setAddSuccess(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [addSuccess]);
   
   // Enhanced add contact with validation
   const validateAndAddContact = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // This prevents the form from submitting
+    
+    const errors = {};
     
     if (!formData.newContact.name.trim()) {
-      setValidationError('Contact name is required');
+      errors.name = 'Contact name is required';
+    }
+    
+    if (!formData.newContact.position?.trim()) {
+      errors.position = 'Position is required';
+    }
+    
+    if (!formData.newContact.email?.trim()) {
+      errors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.newContact.email)) {
+      errors.email = 'Email is invalid';
+    }
+    
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
       return;
     }
     
-    setValidationError(null);
+    setValidationErrors({});
     handleAddContact(e);
+    setAddSuccess(true);
   };
   
   // Get category badge color
@@ -73,40 +101,104 @@ const ContactsSection = ({ formData, handleInputChange, handleAddContact, handle
         </div>
         
         <div className="p-4">
-          <p className="text-sm text-gray-600 mb-4">
-            Add contacts for this property by category. Each contact will be displayed in the appropriate section.
-          </p>
+          <div className="flex items-center mb-4">
+            <p className="text-sm text-gray-600">
+              Add contacts for this property by category. Each contact will be displayed in the appropriate section.
+            </p>
+            <div className="ml-2 bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+              Don't forget to save the form when finished
+            </div>
+          </div>
           
           {/* Add new contact form */}
           <div id="new-contact-form" className="bg-gray-50 rounded-lg p-4 border border-gray-200 mb-6">
-            <h5 className="text-sm font-medium text-gray-800 mb-3">Add New Contact</h5>
+            <h5 className="text-sm font-medium text-gray-800 mb-3 flex items-center justify-between">
+              <span>Add New Contact</span>
+              {addSuccess && (
+                <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full animate-pulse">
+                  Contact added! Remember to save the form when finished.
+                </span>
+              )}
+            </h5>
             
             <form onSubmit={validateAndAddContact} className="space-y-3">
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-7">
-                <div className="sm:col-span-4">
+                <div className="sm:col-span-2">
                   <label htmlFor="newContactName" className="block text-xs font-medium text-gray-700 mb-1">
-                    Contact Name <span className="text-red-500">*</span>
+                    Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
                     id="newContactName"
                     name="newContact.name"
-                    value={formData.newContact.name}
+                    value={formData.newContact.name || ''}
                     onChange={(e) => {
                       handleInputChange(e);
-                      if (validationError) setValidationError(null);
+                      if (validationErrors.name) {
+                        setValidationErrors({...validationErrors, name: null});
+                      }
                     }}
                     className={`shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md ${
-                      validationError ? 'border-red-300' : ''
+                      validationErrors.name ? 'border-red-300' : ''
                     }`}
                     placeholder="Enter contact name"
                   />
-                  {validationError && (
-                    <p className="mt-1 text-xs text-red-600">{validationError}</p>
+                  {validationErrors.name && (
+                    <p className="mt-1 text-xs text-red-600">{validationErrors.name}</p>
                   )}
                 </div>
                 
                 <div className="sm:col-span-2">
+                  <label htmlFor="newContactPosition" className="block text-xs font-medium text-gray-700 mb-1">
+                    Position <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="newContactPosition"
+                    name="newContact.position"
+                    value={formData.newContact.position || ''}
+                    onChange={(e) => {
+                      handleInputChange(e);
+                      if (validationErrors.position) {
+                        setValidationErrors({...validationErrors, position: null});
+                      }
+                    }}
+                    className={`shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md ${
+                      validationErrors.position ? 'border-red-300' : ''
+                    }`}
+                    placeholder="Enter position"
+                  />
+                  {validationErrors.position && (
+                    <p className="mt-1 text-xs text-red-600">{validationErrors.position}</p>
+                  )}
+                </div>
+                
+                <div className="sm:col-span-2">
+                  <label htmlFor="newContactEmail" className="block text-xs font-medium text-gray-700 mb-1">
+                    Email <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    id="newContactEmail"
+                    name="newContact.email"
+                    value={formData.newContact.email || ''}
+                    onChange={(e) => {
+                      handleInputChange(e);
+                      if (validationErrors.email) {
+                        setValidationErrors({...validationErrors, email: null});
+                      }
+                    }}
+                    className={`shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md ${
+                      validationErrors.email ? 'border-red-300' : ''
+                    }`}
+                    placeholder="Enter email address"
+                  />
+                  {validationErrors.email && (
+                    <p className="mt-1 text-xs text-red-600">{validationErrors.email}</p>
+                  )}
+                </div>
+                
+                <div className="sm:col-span-1">
                   <label htmlFor="newContactCategory" className="block text-xs font-medium text-gray-700 mb-1">
                     Category
                   </label>
@@ -126,7 +218,8 @@ const ContactsSection = ({ formData, handleInputChange, handleAddContact, handle
                 
                 <div className="sm:col-span-1 flex items-end">
                   <button
-                    type="submit"
+                    type="button" 
+                    onClick={validateAndAddContact}
                     className="w-full inline-flex items-center justify-center px-3 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   >
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -152,6 +245,22 @@ const ContactsSection = ({ formData, handleInputChange, handleAddContact, handle
             </div>
           ) : (
             <div className="space-y-4">
+              <div className="bg-blue-50 border border-blue-200 rounded-md p-3 mb-4">
+                <div className="flex">
+                  <div className="flex-shrink-0">
+                    <svg className="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div className="ml-3">
+                    <p className="text-sm text-blue-700">
+                      <strong>{formData.contacts.length} contact{formData.contacts.length !== 1 ? 's' : ''}</strong> added to this property. 
+                      <span className="font-medium"> Click "Save Changes" at the bottom of the page to save all contacts.</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
               {/* Section for each category with contacts */}
               {Object.keys(groupedContacts).map((category) => (
                 <div key={category} className="border border-gray-200 rounded-lg overflow-hidden">
@@ -179,6 +288,16 @@ const ContactsSection = ({ formData, handleInputChange, handleAddContact, handle
                             </div>
                             <div className="ml-3">
                               <p className="text-sm font-medium text-gray-900">{contact.name}</p>
+                              {contact.position && (
+                                <p className="text-xs text-gray-500">{contact.position}</p>
+                              )}
+                              {contact.email && (
+                                <p className="text-xs text-blue-600">
+                                  <a href={`mailto:${contact.email}`} className="hover:underline">
+                                    {contact.email}
+                                  </a>
+                                </p>
+                              )}
                             </div>
                           </div>
                           <button

@@ -59,10 +59,12 @@ const PropertySchema = new mongoose.Schema({
     type: [String],
     default: []
   },
-  // New unified contacts array with category information
+  // Updated unified contacts array with position and email fields
   contacts: {
     type: [{
       name: { type: String, required: true },
+      position: { type: String },
+      email: { type: String },
       category: { 
         type: String, 
         required: true,
